@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 50px;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column; /* Display form items in a column */
+        align-items: center; /* Center items horizontally */
+        margin-bottom: 20px;
+      }
+
+      form label,
+      form input {
+        margin-bottom: 10px;
+      }
+
+      #weather-info {
+        font-size: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Weather App</h1>
+    <form id="weatherForm">
+      <label for="cityInput">City:</label>
+      <input type="text" id="cityInput" name="city" required />
+
+      <label for="stateInput">State:</label>
+      <input type="text" id="stateInput" name="state" required />
+
+      <button type="submit">Get Weather</button>
+    </form>
+    <div id="weatherResult"></div>
+
+    <script>
+      document.getElementById('weatherForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const city = document.getElementById('cityInput').value;
+        const state = document.getElementById('stateInput').value; // Get state value
+        const response = await fetch(`http://localhost:4200/weather?city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}`);
+        const data = await response.json();
+        document.getElementById('weatherResult').innerText = `Temperature: ${data.temperatureFahrenheit}°F, Description: ${data.description}`;
+      });
+    </script>
+    
+  </body>
+</html>
